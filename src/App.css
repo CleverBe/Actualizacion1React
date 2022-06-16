@@ -6,6 +6,7 @@
   height: 40vmin;
   pointer-events: none;
 }
+@import url("https://cdn.syncfusion.com/ej2/material.css");
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

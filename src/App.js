@@ -1,8 +1,19 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+
+
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import Hola from './components/hola';
+import Gestores from './components/gestores';
+import Productos from './components/productos';
 
 function App() {
   const baseUrl = "https://localhost:7073/api/gestores";
@@ -81,7 +92,7 @@ function App() {
   const peticionDelete = async () => {
     await axios.delete(baseUrl + "/" + gestorSeleccionado.id)
       .then(response => {
-        setData(data.filter(gestor=>gestor.id !== response.data));
+        setData(data.filter(gestor => gestor.id !== response.data));
         abrirCerrarModalEliminar();
       }).catch(error => {
         console.log(error);
@@ -99,104 +110,17 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <br></br>
-      <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success">Insertar Nuevo</button>
-      <br></br>
-      <table className='table table-bordered'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Lanzamiento</th>
-            <th>Desarrollador</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(gestor => (
-            <tr key={gestor.id}>
-              <td>{gestor.id}</td>
-              <td>{gestor.nombre}</td>
-              <td>{gestor.lanzamiento}</td>
-              <td>{gestor.desarrollador}</td>
-              <td>
-                <button className='btn btn-primary' onClick={() => SeleccionarGestor(gestor, "Editar")}>Editar</button> {"  "}
-                <button className='btn btn-danger' onClick={() => SeleccionarGestor(gestor, "Eliminar")}>Elimar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <Modal isOpen={modalInsertar}>
-        <ModalHeader>Insertar Gestor de base de datos</ModalHeader>
-        <ModalBody>
-          <div className='form-group'>
-            <label>Nombre: </label>
-            <br />
-            <input type="text" className='form-group' name="nombre" onChange={handleChange} />
-            <br />
-            <label>Lanzamiento: </label>
-            <br />
-            <input type="text" className='form-group' name="lanzamiento" onChange={handleChange} />
-            <br />
-            <label>Desarrollador: </label>
-            <br />
-            <input type="text" className='form-group' name="desarrollador" onChange={handleChange} />
-            <br />
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button className='btn btn-primary' onClick={() => peticionPost()} >Insertar</Button>{"  "}
-          <Button className='btn btn-danger' onClick={() => abrirCerrarModalInsertar()} >Cancelar</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal isOpen={modalEditar}>
-        <ModalHeader>Editar Gestor de base de datos</ModalHeader>
-        <ModalBody>
-          <div className='form-group'>
-            <label>ID: </label>
-            <br />
-            <input type="text" className='form-group' readOnly value={gestorSeleccionado && gestorSeleccionado.id} />
-            <br />
-            <label>Nombre: </label>
-            <br />
-            <input type="text" className='form-group' name='nombre' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.nombre} />
-            <br />
-            <label>Lanzamiento: </label>
-            <br />
-            <input type="text" className='form-group' name='lanzamiento' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.lanzamiento} />
-            <br />
-            <label>Desarrollador: </label>
-            <br />
-            <input type="text" className='form-group' name='desarrollador' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.desarrollador} />
-            <br />
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button className='btn btn-primary' onClick={() => peticionPut()} >Editar</Button>{"  "}
-          <Button className='btn btn-danger' onClick={() => abrirCerrarModalEditar()} >Cancelar</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal isOpen={modalEliminar}>
-        <ModalBody>
-          ¿Esta seguro de que quiere eliminar el gestor?
-        </ModalBody>
-        <ModalFooter>
-          <button className='btn btn-danger' onClick={() => peticionDelete()}>
-            Si
-          </button>
-          <button className='btn btn-secondary' onClick={() => abrirCerrarModalEliminar()}>
-            No
-          </button>
-        </ModalFooter>
-      </Modal>
-
-
-    </div>
+    <Router>
+      <div className="container">
+        <h1>Navbar</h1>
+        <hr />
+        <Routes>  
+           <Route path="/hola" element={<Hola />} />
+           <Route path="/gestores" element={<Gestores />} />
+           <Route path="/producto" element={<Productos />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
