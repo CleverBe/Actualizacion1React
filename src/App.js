@@ -3,27 +3,33 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Switch,
+  Link,
+} from "react-router-dom";
 
 function App() {
-  const baseUrl = "https://localhost:7073/api/gestores";
+  const baseUrl = "https://localhost:7073/api/categoria";
   const [data, setData] = useState([]);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
-  const [gestorSeleccionado, setGestorSeleccionado] = useState({
+  const [categSeleccionado, setCategoriaSeleccionado] = useState({
     id: '',
     nombre: '',
-    lanzamiento: '',
-    desarrollador: ''
+    estado: ''
   })
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setGestorSeleccionado({
-      ...gestorSeleccionado,
+    setCategoriaSeleccionado({
+      ...categSeleccionado,
       [name]: value
     });
-    console.log(gestorSeleccionado);
+    console.log(categSeleccionado);
   }
 
   const abrirCerrarModalInsertar = () => {
@@ -48,9 +54,8 @@ function App() {
   }
 
   const peticionPost = async () => {
-    delete gestorSeleccionado.id;
-    gestorSeleccionado.lanzamiento = parseInt(gestorSeleccionado.lanzamiento);
-    await axios.post(baseUrl, gestorSeleccionado)
+    delete categSeleccionado.id;
+    await axios.post(baseUrl, categSeleccionado)
       .then(response => {
         setData(data.concat(response.data));
         abrirCerrarModalInsertar();
@@ -60,16 +65,14 @@ function App() {
   }
 
   const peticionPut = async () => {
-    gestorSeleccionado.lanzamiento = parseInt(gestorSeleccionado.lanzamiento);
-    await axios.put(baseUrl + "/" + gestorSeleccionado.id, gestorSeleccionado)
+    await axios.put(baseUrl + "/" + categSeleccionado.id, categSeleccionado)
       .then(response => {
         var respuesta = response.data;
         var dataAuxiliar = data;
-        dataAuxiliar.map(gestor => {
-          if (gestor.id === gestorSeleccionado.id) {
-            gestor.nombre = respuesta.nombre;
-            gestor.lanzamiento = respuesta.lanzamiento;
-            gestor.desarrollador = respuesta.desarrollador;
+        dataAuxiliar.map(categ => {
+          if (categ.id === categSeleccionado.id) {
+            categ.nombre = respuesta.nombre;
+            categ.estado = respuesta.estado;
           }
         });
         abrirCerrarModalEditar();
@@ -79,17 +82,17 @@ function App() {
   }
 
   const peticionDelete = async () => {
-    await axios.delete(baseUrl + "/" + gestorSeleccionado.id)
+    await axios.delete(baseUrl + "/" + categSeleccionado.id)
       .then(response => {
-        setData(data.filter(gestor=>gestor.id !== response.data));
+        setData(data.filter(categ=>categ.id !== response.data));
         abrirCerrarModalEliminar();
       }).catch(error => {
         console.log(error);
       })
   }
 
-  const SeleccionarGestor = (gestor, caso) => {
-    setGestorSeleccionado(gestor);
+  const SeleccionarCategoria = (categ, caso) => {
+    setCategoriaSeleccionado(categ);
     (caso === "Editar") ?
       abrirCerrarModalEditar() : abrirCerrarModalEliminar();
   }
@@ -108,21 +111,19 @@ function App() {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Lanzamiento</th>
-            <th>Desarrollador</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(gestor => (
-            <tr key={gestor.id}>
-              <td>{gestor.id}</td>
-              <td>{gestor.nombre}</td>
-              <td>{gestor.lanzamiento}</td>
-              <td>{gestor.desarrollador}</td>
+          {data.map(categ => (
+            <tr key={categ.id}>
+              <td>{categ.id}</td>
+              <td>{categ.nombre}</td>
+              <td>{categ.estado}</td>
               <td>
-                <button className='btn btn-primary' onClick={() => SeleccionarGestor(gestor, "Editar")}>Editar</button> {"  "}
-                <button className='btn btn-danger' onClick={() => SeleccionarGestor(gestor, "Eliminar")}>Elimar</button>
+                <button className='btn btn-primary' onClick={() => SeleccionarCategoria(categ, "Editar")}>Editar</button> {"  "}
+                <button className='btn btn-danger' onClick={() => SeleccionarCategoria(categ, "Eliminar")}>Elimar</button>
               </td>
             </tr>
           ))}
@@ -130,20 +131,16 @@ function App() {
       </table>
 
       <Modal isOpen={modalInsertar}>
-        <ModalHeader>Insertar Gestor de base de datos</ModalHeader>
+        <ModalHeader>Insertar Categoria</ModalHeader>
         <ModalBody>
           <div className='form-group'>
             <label>Nombre: </label>
             <br />
             <input type="text" className='form-group' name="nombre" onChange={handleChange} />
             <br />
-            <label>Lanzamiento: </label>
+            <label>Estado: </label>
             <br />
-            <input type="text" className='form-group' name="lanzamiento" onChange={handleChange} />
-            <br />
-            <label>Desarrollador: </label>
-            <br />
-            <input type="text" className='form-group' name="desarrollador" onChange={handleChange} />
+            <input type="text" className='form-group' name="estado" onChange={handleChange} />
             <br />
           </div>
         </ModalBody>
@@ -154,24 +151,20 @@ function App() {
       </Modal>
 
       <Modal isOpen={modalEditar}>
-        <ModalHeader>Editar Gestor de base de datos</ModalHeader>
+        <ModalHeader>Editar Categoria</ModalHeader>
         <ModalBody>
           <div className='form-group'>
             <label>ID: </label>
             <br />
-            <input type="text" className='form-group' readOnly value={gestorSeleccionado && gestorSeleccionado.id} />
+            <input type="text" className='form-group' readOnly value={categSeleccionado && categSeleccionado.id} />
             <br />
             <label>Nombre: </label>
             <br />
-            <input type="text" className='form-group' name='nombre' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.nombre} />
+            <input type="text" className='form-group' name='nombre' onChange={handleChange} value={categSeleccionado && categSeleccionado.nombre} />
             <br />
-            <label>Lanzamiento: </label>
+            <label>Estado: </label>
             <br />
-            <input type="text" className='form-group' name='lanzamiento' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.lanzamiento} />
-            <br />
-            <label>Desarrollador: </label>
-            <br />
-            <input type="text" className='form-group' name='desarrollador' onChange={handleChange} value={gestorSeleccionado && gestorSeleccionado.desarrollador} />
+            <input type="text" className='form-group' name='estado' onChange={handleChange} value={categSeleccionado && categSeleccionado.estado} />
             <br />
           </div>
         </ModalBody>
@@ -183,7 +176,7 @@ function App() {
 
       <Modal isOpen={modalEliminar}>
         <ModalBody>
-          ¿Esta seguro de que quiere eliminar el gestor?
+          ¿Esta seguro de que quiere eliminar la categoria?
         </ModalBody>
         <ModalFooter>
           <button className='btn btn-danger' onClick={() => peticionDelete()}>
