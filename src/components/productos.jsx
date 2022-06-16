@@ -21,7 +21,7 @@ function App() {
         marca: '',
         categoria_id: '',
     })
-    
+
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -115,7 +115,7 @@ function App() {
     return (
         <div className="App">
             <br></br>
-            <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success">Insertar Nuevo producto</button>
+            <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success mb-3">Insertar Nuevo producto</button>
             <br></br>
             <table className='table table-bordered'>
                 <thead>
@@ -181,8 +181,16 @@ function App() {
                         <br />
                         <label>Categoria: </label>
                         <br />
-                        <input type="text" className='form-group' name="categoria_id" onChange={handleChange} />
-                        <br />
+                        {/* <input type="text" className='form-group' name="categoria_id" onChange={handleChange} />
+                        <br /> */}
+                        <div className='form-group'>
+                            <select className='form-group' name="categoria_id" onChange={handleChange} >
+                                <option>Seleccione una categoria</option>
+                                {data.map(producto => (
+                                    <option key={producto.id} value={producto.id} >{producto.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
@@ -225,8 +233,16 @@ function App() {
                         <br />
                         <label>Categoria: </label>
                         <br />
-                        <input type="text" className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} />
-                        <br />
+                        {/* <input type="text" className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} />
+                        <br /> */}
+                        <div className='form-group'>
+                            <select className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} >
+                                <option>Seleccione una categoria</option>
+                                {data.map(producto => (
+                                    <option key={producto.id} value={producto.id} >{producto.nombre}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
