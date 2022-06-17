@@ -8,9 +8,9 @@ import {
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Hola from './components/hola';
 import Gestores from './components/gestores';
 import Productos from './components/productos';
+import Categorias from './components/categorias';
 
 function App() {
   return (
@@ -23,15 +23,15 @@ function App() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
+              <a className="nav-item nav-link active" href="/categoria">Categorias</a>
               <a className="nav-item nav-link active" href="/producto">Productos</a>
-              <a className="nav-item nav-link" href="/hola">Hola</a>
             </div>
           </div>
         </nav>
         <Routes>
-          <Route path="/hola" element={<Hola />} />
           <Route path="/gestores" element={<Gestores />} />
           <Route path="/producto" element={<Productos />} />
+          <Route path="/categoria" element={<Categorias />} />
         </Routes>
       </div>
     </Router>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
@@ -6,8 +5,11 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import '../App.css';
 
 function App() {
+
     const baseUrl = "https://localhost:7073/api/producto";
+    const baseUrl2 = "https://localhost:7073/api/categoria";
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
     const [modalEditar, setModalEditar] = useState(false);
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEliminar, setModalEliminar] = useState(false);
@@ -48,6 +50,14 @@ function App() {
         await axios.get(baseUrl)
             .then(response => {
                 setData(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+    const peticionGet2 = async () => {
+        await axios.get(baseUrl2)
+            .then(response => {
+                setData2(response.data);
             }).catch(error => {
                 console.log(error);
             })
@@ -110,6 +120,9 @@ function App() {
 
     useEffect(() => {
         peticionGet();
+    }, [])
+    useEffect(() => {
+        peticionGet2();
     }, [])
 
     return (
@@ -181,13 +194,11 @@ function App() {
                         <br />
                         <label>Categoria: </label>
                         <br />
-                        {/* <input type="text" className='form-group' name="categoria_id" onChange={handleChange} />
-                        <br /> */}
                         <div className='form-group'>
                             <select className='form-group' name="categoria_id" onChange={handleChange} >
-                                <option>Seleccione una categoria</option>
-                                {data.map(producto => (
-                                    <option key={producto.id} value={producto.id} >{producto.nombre}</option>
+                                <option disabled>Seleccione una categoria</option>
+                                {data2.map(categoria => (
+                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
                                 ))}
                             </select>
                         </div>
@@ -233,13 +244,11 @@ function App() {
                         <br />
                         <label>Categoria: </label>
                         <br />
-                        {/* <input type="text" className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} />
-                        <br /> */}
                         <div className='form-group'>
                             <select className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} >
-                                <option>Seleccione una categoria</option>
-                                {data.map(producto => (
-                                    <option key={producto.id} value={producto.id} >{producto.nombre}</option>
+                                <option disabled>Seleccione una categoria</option>
+                                {data2.map(categoria => (
+                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
                                 ))}
                             </select>
                         </div>
