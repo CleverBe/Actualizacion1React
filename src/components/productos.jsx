@@ -22,6 +22,7 @@ function App() {
         stock: '',
         marca: '',
         categoria_id: '',
+        nombrecat: '',
     })
 
 
@@ -154,7 +155,7 @@ function App() {
                             <td>{producto.caracteristicas}</td>
                             <td>{producto.stock}</td>
                             <td>{producto.marca}</td>
-                            <td>{producto.categoria_id}</td>
+                            <td>{producto.nombrecat}</td>
                             <td>
                                 <button className='btn btn-primary' onClick={() => SeleccionarProducto(producto, "Editar")}>Editar</button> {"  "}
                                 <button className='btn btn-danger' onClick={() => SeleccionarProducto(producto, "Eliminar")}>Eliminar</button>
@@ -216,7 +217,13 @@ function App() {
                     <div className='form-group'>
                         <label>ID: </label>
                         <br />
+                        <label ></label>
                         <input type="text" className='form-group' readOnly value={ProductoSeleccionado && ProductoSeleccionado.id} />
+                        <br />
+                        <label>Categoria: </label>
+                        <br />
+                        <label ></label>
+                        <input type="text" className='form-group' name='nombrecat' value={ProductoSeleccionado && ProductoSeleccionado.nombrecat} />
                         <br />
                         <label>Nombre: </label>
                         <br />
