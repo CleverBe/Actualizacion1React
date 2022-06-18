@@ -219,12 +219,7 @@ function App() {
                         <br />
                         <label ></label>
                         <input type="text" className='form-group' readOnly value={ProductoSeleccionado && ProductoSeleccionado.id} />
-                        <br />
-                        <label>Categoria: </label>
-                        <br />
-                        <label ></label>
-                        <input type="text" className='form-group' name='nombrecat' value={ProductoSeleccionado && ProductoSeleccionado.nombrecat} />
-                        <br />
+                        <br />                        
                         <label>Nombre: </label>
                         <br />
                         <input type="text" className='form-group' name='nombre' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.nombre} />
