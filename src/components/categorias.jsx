@@ -77,7 +77,7 @@ function App() {
   const peticionDelete = async () => {
     await axios.delete(baseUrl + "/" + categSeleccionado.id)
       .then(response => {
-        setData(data.filter(categ=>categ.id !== response.data));
+        setData(data.filter(categ => categ.id !== response.data));
         abrirCerrarModalEliminar();
       }).catch(error => {
         console.log(error);
@@ -95,93 +95,116 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      <br></br>
-      <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success">Insertar Nuevo</button>
-      <br></br>
-      <table className='table table-bordered'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(categ => (
-            <tr key={categ.id}>
-              <td>{categ.id}</td>
-              <td>{categ.nombre}</td>
-              <td>{categ.estado}</td>
-              <td>
-                <button className='btn btn-primary' onClick={() => SeleccionarCategoria(categ, "Editar")}>Editar</button> {"  "}
-                <button className='btn btn-danger' onClick={() => SeleccionarCategoria(categ, "Eliminar")}>Elimar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
-      <Modal isOpen={modalInsertar}>
-        <ModalHeader>Insertar Categoria</ModalHeader>
-        <ModalBody>
-          <div className='form-group'>
-            <label>Nombre: </label>
-            <br />
-            <input type="text" className='form-group' name="nombre" onChange={handleChange} />
-            <br />
-            <label>Estado: </label>
-            <br />
-            <input type="text" className='form-group' name="estado" onChange={handleChange} />
-            <br />
+    <div className="content-wrapper">
+      <div className="row p-3">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Listado de Categorias</h3>
+              <div className="card-tools">
+                <div className="input-group input-group-sm" style={{ width: 250 }}>
+                  <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success p-2">Insertar Nuevo</button>
+                </div>
+              </div>
+            </div>
+            {/* /.card-header */}
+            <div className="card-body table-responsive p-0">
+              <table className="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map(categ => (
+                    <tr key={categ.id}>
+                      <td>{categ.id}</td>
+                      <td>{categ.nombre}</td>
+                      <td>{categ.estado}</td>
+                      <td>
+                        <button className='btn btn-primary' onClick={() => SeleccionarCategoria(categ, "Editar")}>Editar</button> {"  "}
+                        <button className='btn btn-danger' onClick={() => SeleccionarCategoria(categ, "Eliminar")}>Eliminar</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Modal isOpen={modalInsertar}>
+                <ModalHeader>Insertar Categoria</ModalHeader>
+                <ModalBody>
+                  <div className='form-group'>
+                    <label>Nombre: </label>
+                    <br />
+                    <input type="text" maxLength={15} className='form-group' name="nombre" onChange={handleChange} />
+                    <br />
+                    <label>Estado: </label>
+                    <br />
+                    <div className='form-group'>
+                      <select className='form-group' name='estado' onChange={handleChange} >
+                        <option disabled selected>Elegir</option>
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button className='btn btn-primary' onClick={() => peticionPost()} >Insertar</Button>{"  "}
+                  <Button className='btn btn-danger' onClick={() => abrirCerrarModalInsertar()} >Cancelar</Button>
+                </ModalFooter>
+              </Modal>
+
+              <Modal isOpen={modalEditar}>
+                <ModalHeader>Editar Categoria</ModalHeader>
+                <ModalBody>
+                  <div className='form-group'>
+                    <label>ID: </label>
+                    <br />
+                    <input type="text" className='form-group' readOnly value={categSeleccionado && categSeleccionado.id} />
+                    <br />
+                    <label>Nombre: </label>
+                    <br />
+                    <input type="text" maxLength={15} className='form-group' name='nombre' onChange={handleChange} value={categSeleccionado && categSeleccionado.nombre} />
+                    <br />
+                    <label>Estado: </label>
+                    <br />
+                    <div className='form-group'>
+                      <select className='form-group' name='estado' onChange={handleChange} value={categSeleccionado && categSeleccionado.estado}>
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button className='btn btn-primary' onClick={() => peticionPut()} >Editar</Button>{"  "}
+                  <Button className='btn btn-danger' onClick={() => abrirCerrarModalEditar()} >Cancelar</Button>
+                </ModalFooter>
+              </Modal>
+
+              <Modal isOpen={modalEliminar}>
+                <ModalBody>
+                  ¿Esta seguro de que quiere eliminar la categoria?
+                </ModalBody>
+                <ModalFooter>
+                  <button className='btn btn-danger' onClick={() => peticionDelete()}>
+                    Si
+                  </button>
+                  <button className='btn btn-secondary' onClick={() => abrirCerrarModalEliminar()}>
+                    No
+                  </button>
+                </ModalFooter>
+              </Modal>
+            </div>
+            {/* /.card-body */}
           </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button className='btn btn-primary' onClick={() => peticionPost()} >Insertar</Button>{"  "}
-          <Button className='btn btn-danger' onClick={() => abrirCerrarModalInsertar()} >Cancelar</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal isOpen={modalEditar}>
-        <ModalHeader>Editar Categoria</ModalHeader>
-        <ModalBody>
-          <div className='form-group'>
-            <label>ID: </label>
-            <br />
-            <input type="text" className='form-group' readOnly value={categSeleccionado && categSeleccionado.id} />
-            <br />
-            <label>Nombre: </label>
-            <br />
-            <input type="text" className='form-group' name='nombre' onChange={handleChange} value={categSeleccionado && categSeleccionado.nombre} />
-            <br />
-            <label>Estado: </label>
-            <br />
-            <input type="text" className='form-group' name='estado' onChange={handleChange} value={categSeleccionado && categSeleccionado.estado} />
-            <br />
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button className='btn btn-primary' onClick={() => peticionPut()} >Editar</Button>{"  "}
-          <Button className='btn btn-danger' onClick={() => abrirCerrarModalEditar()} >Cancelar</Button>
-        </ModalFooter>
-      </Modal>
-
-      <Modal isOpen={modalEliminar}>
-        <ModalBody>
-          ¿Esta seguro de que quiere eliminar la categoria?
-        </ModalBody>
-        <ModalFooter>
-          <button className='btn btn-danger' onClick={() => peticionDelete()}>
-            Si
-          </button>
-          <button className='btn btn-secondary' onClick={() => abrirCerrarModalEliminar()}>
-            No
-          </button>
-        </ModalFooter>
-      </Modal>
-
-
+          {/* /.card */}
+        </div>
+      </div>
     </div>
   );
 }

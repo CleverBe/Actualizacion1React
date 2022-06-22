@@ -1,4 +1,4 @@
-import {BrowserRouter as Router,Routes,Route,Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,24 +9,18 @@ import Login from './components/login';
 import CrudLogin from './components/crudlogin';
 import MenuLogin from './components/menulogin';
 import './css/Login.css';
+import Header from "./components/Header";
+import Aside from "./components/Aside";
+import Footer from "./components/Footer";
 function App() {
   return (
-    
+
     <Router>
       
-      <div className="container">        
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="/">Home</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <a className="nav-item nav-link active" href="/categoria">Categorias</a>
-              <a className="nav-item nav-link active" href="/producto">Productos</a>
-            </div>
-          </div>
-        </nav>
+        <Header />
+        <Aside />
+        
+        
         <Routes>
           <Route path="/gestores" element={<Gestores />} />
           <Route path="/producto" element={<Productos />} />
@@ -35,7 +29,8 @@ function App() {
           <Route path="/menulogin" element={<MenuLogin />} />
           <Route path="/crudlogin" element={<CrudLogin />} />
         </Routes>
-      </div>
+
+        <Footer />
     </Router>
   );
 }

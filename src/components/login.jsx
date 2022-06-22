@@ -53,11 +53,9 @@ function Login(props) {
 
   return (
 
-    <body>
-
-
+    <div className="content-wrapper">
       <div className="form-register">
-        <h3 className='text-center'>BIENVENIDO</h3>
+        <h3 className='text-center'>Ingrese su usuario y contraseña</h3>
         <div className="form-group">
           <label>Usuario: </label>
           <br />
@@ -81,7 +79,8 @@ function Login(props) {
         </div>
 
       </div>
-    </body>
+    </div>
+
 
   );
 }

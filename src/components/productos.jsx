@@ -127,155 +127,171 @@ function App() {
     }, [])
 
     return (
-        <div className="App">
-            <br></br>
-            <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success mb-3">Insertar Nuevo producto</button>
-            <br></br>
-            <table className='table table-bordered'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Costo</th>
-                        <th>Precio</th>
-                        <th>Caracteristicas</th>
-                        <th>Stock</th>
-                        <th>Marca</th>
-                        <th>Categoria</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map(producto => (
-                        <tr key={producto.id}>
-                            <td>{producto.id}</td>
-                            <td>{producto.nombre}</td>
-                            <td>{producto.costo}</td>
-                            <td>{producto.precio}</td>
-                            <td>{producto.caracteristicas}</td>
-                            <td>{producto.stock}</td>
-                            <td>{producto.marca}</td>
-                            <td>{producto.nombrecat}</td>
-                            <td>
-                                <button className='btn btn-primary' onClick={() => SeleccionarProducto(producto, "Editar")}>Editar</button> {"  "}
-                                <button className='btn btn-danger' onClick={() => SeleccionarProducto(producto, "Eliminar")}>Eliminar</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <Modal isOpen={modalInsertar}>
-                <ModalHeader>Insertar un nuevo producto</ModalHeader>
-                <ModalBody>
-                    <div className='form-group'>
-                        <label>Nombre: </label>
-                        <br />
-                        <input type="text" className='form-group' name="nombre" onChange={handleChange} />
-                        <br />
-                        <label>Costo: </label>
-                        <br />
-                        <input type="text" className='form-group' name="costo" onChange={handleChange} />
-                        <br />
-                        <label>Precio: </label>
-                        <br />
-                        <input type="text" className='form-group' name="precio" onChange={handleChange} />
-                        <br />
-                        <label>Caracteristicas: </label>
-                        <br />
-                        <input type="text" className='form-group' name="caracteristicas" onChange={handleChange} />
-                        <br />
-                        <label>Stock: </label>
-                        <br />
-                        <input type="text" className='form-group' name="stock" onChange={handleChange} />
-                        <br />
-                        <label>Marca: </label>
-                        <br />
-                        <input type="text" className='form-group' name="marca" onChange={handleChange} />
-                        <br />
-                        <label>Categoria: </label>
-                        <br />
-                        <div className='form-group'>
-                            <select className='form-group' name="categoria_id" onChange={handleChange} >
-                                <option disabled>Seleccione una categoria</option>
-                                {data2.map(categoria => (
-                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
-                                ))}
-                            </select>
+        <div className="content-wrapper">
+            <div className="row p-3">
+                <div className="col-12">
+                    <div className="card">
+                        <div className="card-header">
+                            <h3 className="card-title">Listado de productos</h3>
+                            <div className="card-tools">
+                                <div className="input-group input-group-sm" style={{ width: 250 }}>
+                                    <button onClick={() => abrirCerrarModalInsertar()} className="btn btn-success p-2">Insertar Nuevo</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </ModalBody>
-                <ModalFooter>
-                    <Button className='btn btn-primary' onClick={() => peticionPost()} >Insertar</Button>{"  "}
-                    <Button className='btn btn-danger' onClick={() => abrirCerrarModalInsertar()} >Cancelar</Button>
-                </ModalFooter>
-            </Modal>
+                        {/* /.card-header */}
+                        <div className="card-body table-responsive p-0">
+                            <table className="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th className='text-center'>ID</th>
+                                        <th className='text-center'>Nombre</th>
+                                        <th className='text-center'>Costo</th>
+                                        <th className='text-center'>Precio</th>
+                                        <th className='text-center'>Caracteristicas</th>
+                                        <th className='text-center'>Stock</th>
+                                        <th className='text-center'>Marca</th>
+                                        <th className='text-center'>Categoria</th>
+                                        <th className='text-center'>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.map(producto => (
+                                        <tr key={producto.id}>
+                                            <td>{producto.id}</td>
+                                            <td>{producto.nombre}</td>
+                                            <td>{producto.costo}</td>
+                                            <td>{producto.precio}</td>
+                                            <td>{producto.caracteristicas}</td>
+                                            <td>{producto.stock}</td>
+                                            <td>{producto.marca}</td>
+                                            <td>{producto.nombrecat}</td>
+                                            <td>
+                                                <button className='btn btn-primary' onClick={() => SeleccionarProducto(producto, "Editar")}>Editar</button> {"  "}
+                                                <button className='btn btn-danger' onClick={() => SeleccionarProducto(producto, "Eliminar")}>Eliminar</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <Modal isOpen={modalInsertar}>
+                                <ModalHeader>Insertar un nuevo producto</ModalHeader>
+                                <ModalBody>
+                                    <div className='form-group'>
+                                        <label>Nombre: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="nombre" onChange={handleChange} />
+                                        <br />
+                                        <label>Costo: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="costo" onChange={handleChange} />
+                                        <br />
+                                        <label>Precio: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="precio" onChange={handleChange} />
+                                        <br />
+                                        <label>Caracteristicas: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="caracteristicas" onChange={handleChange} />
+                                        <br />
+                                        <label>Stock: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="stock" onChange={handleChange} />
+                                        <br />
+                                        <label>Marca: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name="marca" onChange={handleChange} />
+                                        <br />
+                                        <label>Categoria: </label>
+                                        <br />
+                                        <div className='form-group'>
+                                            <select className='form-group' name="categoria_id" onChange={handleChange} >
+                                                <option disabled>Seleccione una categoria</option>
+                                                {data2.map(categoria => (
+                                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button className='btn btn-primary' onClick={() => peticionPost()} >Insertar</Button>{"  "}
+                                    <Button className='btn btn-danger' onClick={() => abrirCerrarModalInsertar()} >Cancelar</Button>
+                                </ModalFooter>
+                            </Modal>
 
-            <Modal isOpen={modalEditar}>
-                <ModalHeader>Editar producto</ModalHeader>
-                <ModalBody>
-                    <div className='form-group'>
-                        <label>ID: </label>
-                        <br />
-                        <label ></label>
-                        <input type="text" className='form-group' readOnly value={ProductoSeleccionado && ProductoSeleccionado.id} />
-                        <br />                        
-                        <label>Nombre: </label>
-                        <br />
-                        <input type="text" className='form-group' name='nombre' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.nombre} />
-                        <br />
-                        <label>Costo: </label>
-                        <br />
-                        <input type="text" className='form-group' name='costo' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.costo} />
-                        <br />
-                        <label>Precio: </label>
-                        <br />
-                        <input type="text" className='form-group' name='precio' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.precio} />
-                        <br />
-                        <label>Caracteristicas: </label>
-                        <br />
-                        <input type="text" className='form-group' name='caracteristicas' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.caracteristicas} />
-                        <br />
-                        <label>Stock: </label>
-                        <br />
-                        <input type="text" className='form-group' name='stock' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.stock} />
-                        <br />
-                        <label>Marca: </label>
-                        <br />
-                        <input type="text" className='form-group' name='marca' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.marca} />
-                        <br />
-                        <label>Categoria: </label>
-                        <br />
-                        <div className='form-group'>
-                            <select className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} >
-                                <option disabled>Seleccione una categoria</option>
-                                {data2.map(categoria => (
-                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
-                                ))}
-                            </select>
+                            <Modal isOpen={modalEditar}>
+                                <ModalHeader>Editar producto</ModalHeader>
+                                <ModalBody>
+                                    <div className='form-group'>
+                                        <label>ID: </label>
+                                        <br />
+                                        <label ></label>
+                                        <input type="text" className='form-group' readOnly value={ProductoSeleccionado && ProductoSeleccionado.id} />
+                                        <br />
+                                        <label>Nombre: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='nombre' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.nombre} />
+                                        <br />
+                                        <label>Costo: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='costo' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.costo} />
+                                        <br />
+                                        <label>Precio: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='precio' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.precio} />
+                                        <br />
+                                        <label>Caracteristicas: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='caracteristicas' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.caracteristicas} />
+                                        <br />
+                                        <label>Stock: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='stock' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.stock} />
+                                        <br />
+                                        <label>Marca: </label>
+                                        <br />
+                                        <input type="text" className='form-group' name='marca' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.marca} />
+                                        <br />
+                                        <label>Categoria: </label>
+                                        <br />
+                                        <div className='form-group'>
+                                            <select className='form-group' name='categoria_id' onChange={handleChange} value={ProductoSeleccionado && ProductoSeleccionado.categoria_id} >
+                                                <option disabled>Seleccione una categoria</option>
+                                                {data2.map(categoria => (
+                                                    <option key={categoria.id} value={categoria.id} >{categoria.nombre}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button className='btn btn-primary' onClick={() => peticionPut()} >Editar</Button>{"  "}
+                                    <Button className='btn btn-danger' onClick={() => abrirCerrarModalEditar()} >Cancelar</Button>
+                                </ModalFooter>
+                            </Modal>
+
+                            <Modal isOpen={modalEliminar}>
+                                <ModalBody>
+                                    ¿Esta seguro de que quiere eliminar el producto?
+                                </ModalBody>
+                                <ModalFooter>
+                                    <button className='btn btn-danger' onClick={() => peticionDelete()}>
+                                        Si
+                                    </button>
+                                    <button className='btn btn-secondary' onClick={() => abrirCerrarModalEliminar()}>
+                                        No
+                                    </button>
+                                </ModalFooter>
+                            </Modal>
                         </div>
+                        {/* /.card-body */}
                     </div>
-                </ModalBody>
-                <ModalFooter>
-                    <Button className='btn btn-primary' onClick={() => peticionPut()} >Editar</Button>{"  "}
-                    <Button className='btn btn-danger' onClick={() => abrirCerrarModalEditar()} >Cancelar</Button>
-                </ModalFooter>
-            </Modal>
-
-            <Modal isOpen={modalEliminar}>
-                <ModalBody>
-                    ¿Esta seguro de que quiere eliminar el producto?
-                </ModalBody>
-                <ModalFooter>
-                    <button className='btn btn-danger' onClick={() => peticionDelete()}>
-                        Si
-                    </button>
-                    <button className='btn btn-secondary' onClick={() => abrirCerrarModalEliminar()}>
-                        No
-                    </button>
-                </ModalFooter>
-            </Modal>
+                    {/* /.card */}
+                </div>
+            </div>
         </div>
+
     );
 }
 
